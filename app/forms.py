@@ -1,7 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
+from app.models import Profession
 
-class SearchProffForm(FlaskForm):
-    profession_q = StringField("Поиск профессии", validators=[DataRequired()], render_kw={"class":"form-control"})
-    submit = SubmitField("Найти!", render_kw={"class":"btn btn-primary"})
+
+class SelectProf(FlaskForm):
+    select = SelectField("Professions",
+        choices=[prof.name for prof in Profession.query.all()])
+    submit = SubmitField("Select")
