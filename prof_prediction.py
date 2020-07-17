@@ -3,7 +3,6 @@ import joblib
 import pandas as pd
 import xgboost as xgb
 
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MultiLabelBinarizer
 
 from app import models
@@ -40,17 +39,16 @@ def get_classifier(data):
 
     train = pd.DataFrame(mlb.fit_transform(data.skills), columns=mlb.classes_)
 
-    X_train, X_test, y_train, y_test = train_test_split(train, data.profession.astype('int'), test_size=0.2)
-
     classifier = xgb.XGBClassifier()
-    classifier.fit(X_train, y_train)
+    classifier.fit(train, data.profession.astype('int'))
 
-    joblib.dump(classifier, os.path.join('serial', 'classifier.pkl'))
+    return classifier
 
 
 def update_classifier():
     skills = get_skills()
-    get_classifier(skills)
+    clf = get_classifier(skills)
+    joblib.dump(clf, os.path.join('serial', 'classifier.pkl'))
 
 
 def get_profession(user_skills):
