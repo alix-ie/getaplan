@@ -30,7 +30,11 @@ def get_skills():
 
 
 def get_classifier(data):
-    # todo: check data type, structure
+    if type(data) != pd.core.frame.DataFrame:
+        raise TypeError('expected pandas DataFrame')
+
+    if not ('skills' in data.columns and 'profession' in data.columns):
+        raise ValueError("DataFrame should contain columns 'skills' and 'profession'")
 
     mlb = MultiLabelBinarizer()
 
@@ -50,11 +54,17 @@ def update_classifier():
 
 
 def get_profession(user_skills):
-    # todo: check user_skills type
+    if type(user_skills) != dict:
+        raise TypeError('expected dict')
 
     clf = joblib.load(os.path.join('serial', 'classifier.pkl'))
 
-    pred = clf.predict_proba(pd.DataFrame(user_skills, index=[0]))[0]
-    # todo: ValueError msg
+    try:
+        pred = clf.predict_proba(pd.DataFrame(user_skills, index=[0]))[0]
+    except ValueError as e:
+        if 'feature_names mismatch' in e.args[0]:
+            raise ValueError('Feature names mismatch. Fix input data or update classifier') from None
+        else:
+            raise e
 
     return {idx + 1: val for idx, val in enumerate(pred)}
