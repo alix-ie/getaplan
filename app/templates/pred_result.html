@@ -5,10 +5,15 @@
 
     {% from "_formhelpers.html" import render_field %}
     <h1>Результат прогноза</h1>
-    <ul>
-    {% for p in prediction.keys() %}
-        <li>Профессия {{ p }} она вам подходит с вероятностью {{ prediction[p] }}</li>
-    {% endfor %}
-    </ul>
+    {% if prediction %}
+        <ul>
+        {% for p in prediction.keys() %}
+            <li>Профессия {{ p }} она вам подходит с вероятностью {{ prediction[p] }}%</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Подходящая профессия не найдена, попробуйте ввести другие навыки или укажите их большее количество</p>
+        <a href="{{ url_for('prof_prediction') }}">Попробывать еще раз</a>
+    {% endif %}
 </div>    
 {% endblock %}

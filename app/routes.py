@@ -48,5 +48,14 @@ def predict_result(user_skills):
         if query:
             dict_skills[query.id] = 1
 
-    prediction = get_profession(dict_skills)
-    return render_template("pred_result.html", title="Result", prediction=prediction )
+    professions = db.session.query(Profession).all()
+    predictions = get_profession(dict_skills)
+    ready_pred = {}
+    for pred in predictions.keys():
+        for prof in professions:
+            percentage = int(round(predictions[pred], 2)*100)
+            if int(pred) == prof.id and percentage >= 10:
+                ready_pred[prof.name] = percentage
+            if not ready_pred:
+                ready_pred = 0
+    return render_template("pred_result.html", title="Result", prediction=ready_pred )

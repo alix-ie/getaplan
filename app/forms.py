@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, SelectField, StringField, validators
+from wtforms import SubmitField, SelectField, TextAreaField, validators
 from app.models import Profession
 
 
@@ -9,5 +9,5 @@ class SelectProf(FlaskForm):
     submit = SubmitField("Select")
 
 class ProfPredict(FlaskForm):
-    skills = StringField('Enter your skills')
+    skills = TextAreaField('Enter your skills')
     submit = SubmitField("Enter")
