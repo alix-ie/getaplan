@@ -10,18 +10,20 @@ class Profession(db.Model):
         return "<Profession {}>".format(self.name)
 
 
-class Skill(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(32), index=True, unique=True)
-
-    def __repr__(self):
-        return "<Skill {}>".format(self.name)
-
-
 vacancy_skill = db.Table('vacancy_skill', db.Model.metadata,
     db.Column('vacancy_id', db.Integer, db.ForeignKey('vacancy.id')),
     db.Column('skill_id', db.Integer, db.ForeignKey('skill.id'))
 )
+
+
+class Skill(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32), index=True, unique=True)
+    vacancies = db.relationship('Vacancy', secondary=vacancy_skill,
+                    back_populates="skills")
+
+    def __repr__(self):
+        return "<Skill {}>".format(self.name)
 
 
 class Vacancy(db.Model):
@@ -32,7 +34,8 @@ class Vacancy(db.Model):
     area = db.Column(db.String(32), index=True)
     salary = db.Column(db.Float, index=True)
     profession_id = db.Column(db.Integer, db.ForeignKey('profession.id'))
-    skills = db.relationship('Skill', secondary=vacancy_skill)
+    skills = db.relationship('Skill', secondary=vacancy_skill,
+                back_populates="vacancies")
 
     def __repr__(self):
         return "<Vacancy {}>".format(self.name)
