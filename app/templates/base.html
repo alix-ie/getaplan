@@ -6,10 +6,11 @@
     {% else %}
     <title>Welcome to Getaplan</title>
     {% endif %}
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 </head>
 <body>
     <div class="container">
-        <div>Getaplan: <a href="{{ url_for('index') }}">Home</a></div>
+        <div>Getaplan: <a href="{{ url_for('index') }}">Home</a><a href="{{ url_for('prof_prediction') }}"> Prediction</a></div>
         <hr>
         {% with messages = get_flashed_messages() %}
         {% if messages %}

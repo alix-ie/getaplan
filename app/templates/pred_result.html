@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-8">
+    <h1>Start page</h1>
+
+    {% from "_formhelpers.html" import render_field %}
+    <h1>Результат прогноза</h1>
+    <ul>
+    {% for p in prediction.keys() %}
+        <li>Профессия {{ p }} она вам подходит с вероятностью {{ prediction[p] }}</li>
+    {% endfor %}
+    </ul>
+</div>    
+{% endblock %}

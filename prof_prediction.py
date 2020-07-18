@@ -50,7 +50,7 @@ def get_classifier(data):
 def update_classifier():
     skills = get_skills()
     clf = get_classifier(skills)
-
+    
     client = create_connection()
 
     try:
