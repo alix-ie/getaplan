@@ -11,7 +11,7 @@ __pycache__/
 build/
 develop-eggs/
 dist/
-downloads/
+0downloads/
 eggs/
 .eggs/
 lib/
@@ -131,3 +131,6 @@ dmypy.json
 # alix gitignore
 .idea/
 jupyter/
+app.db
+xgboost/
+.vscode/
